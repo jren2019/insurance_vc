@@ -43,7 +43,7 @@ def seed_database():
             sample_credentials = [
                 {
                     'credential_id': 'ACC-418277-QLKO',
-                    'subject_id': 'did:xyz:fig23',
+                    'subject_id': 'did:org.issuance-vc.bank.account:holder-1',
                     'type': 'Account',
                     'format': 'ISO mdoc',
                     'status': 'active',

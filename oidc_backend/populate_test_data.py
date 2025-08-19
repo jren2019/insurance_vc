@@ -80,7 +80,7 @@ def populate_test_data():
                     
                     # Random subject ID (some with DID format, some without)
                     if random.choice([True, False]):
-                        subject_id = f"did:example:{random.randint(1000, 9999)}"
+                        subject_id = f"did:org.issuance-vc.bank.account:holder-{random.randint(1000, 9999)}"
                     else:
                         subject_id = None
                     
