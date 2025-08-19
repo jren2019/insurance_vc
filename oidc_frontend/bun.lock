@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "stream-credential-management",
+      "name": "oidc_frontend",
       "dependencies": {
         "@angular/animations": "^20.1.7",
         "@angular/cdk": "^20.1.6",

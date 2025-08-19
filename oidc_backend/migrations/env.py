@@ -15,6 +15,11 @@ from models import Base, Credential, VerificationLog
 # access to the values within the .ini file in use.
 config = context.config
 
+# Prefer DATABASE_URL from environment (e.g., docker-compose), fallback to ini
+env_database_url = os.getenv("DATABASE_URL")
+if env_database_url:
+    config.set_main_option("sqlalchemy.url", env_database_url)
+
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:

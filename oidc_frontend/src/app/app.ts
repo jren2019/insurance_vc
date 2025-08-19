@@ -8,5 +8,5 @@ import { MainLayoutComponent } from './components/layout/main-layout.component';
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('stream-credential-management');
+  protected readonly title = signal('oidc_frontend');
 }
