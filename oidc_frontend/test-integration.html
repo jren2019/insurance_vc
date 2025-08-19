@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Integration Test</title>
+</head>
+<body>
+    <h1>Testing Angular-Flask Integration</h1>
+    <button onclick="testIssueCredential()">Test Issue Credential</button>
+    <button onclick="testGetCredentials()">Test Get Credentials</button>
+    <div id="result"></div>
+
+    <script>
+        async function testIssueCredential() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing issue credential...';
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/issue_credential', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        credential_id: 'TEST-' + Date.now(),
+                        type: 'Identity',
+                        subject_id: 'did:test:123',
+                        format: 'ISO mdoc',
+                        given_name: 'John',
+                        family_name: 'Doe',
+                        birth_date: '1990-01-01',
+                        custom_fields: {
+                            nationality: 'US',
+                            document_number: '123456789'
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                resultDiv.innerHTML = '<h3>Issue Credential Result:</h3><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                resultDiv.innerHTML = '<h3>Error:</h3><pre>' + error.message + '</pre>';
+            }
+        }
+
+        async function testGetCredentials() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing get credentials...';
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/credentials');
+                const data = await response.json();
+                resultDiv.innerHTML = '<h3>Get Credentials Result:</h3><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                resultDiv.innerHTML = '<h3>Error:</h3><pre>' + error.message + '</pre>';
+            }
+        }
+    </script>
+</body>
+</html>
