@@ -40,6 +40,8 @@ services:
     volumes:
       - ./oidc_backend:/app
       - backend_logs:/app/logs
+    ports:
+      - "5000:5000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -51,7 +53,7 @@ services:
       timeout: 10s
       retries: 3
 
-  # Angular Frontend
+  # Angular Frontend (build only)
   frontend:
     build:
       context: ./oidc_frontend
@@ -60,25 +62,23 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-      - API_URL=${API_URL:-http://backend:5000}
+      - API_URL=${API_URL:-http://insurance-vc-nz.australiaeast.cloudapp.azure.com/api}
     volumes:
-      - frontend_build:/app/dist
+      - frontend_build:/usr/share/nginx/html
     depends_on:
       - backend
     networks:
       - oidc_network
 
-  # Nginx Reverse Proxy
+  # Nginx Reverse Proxy (single nginx service)
   nginx:
     image: nginx:alpine
     container_name: oidc_nginx
     restart: unless-stopped
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
       - frontend_build:/usr/share/nginx/html:ro
       - nginx_logs:/var/log/nginx
     depends_on:

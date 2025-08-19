@@ -1,4 +1,4 @@
-# Build stage
+# Build stage only - no nginx needed
 FROM node:18-alpine AS builder
 
 # Set working directory
@@ -8,29 +8,32 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm ci
+
+# Install Angular CLI globally
+RUN npm install -g @angular/cli
 
 # Copy source code
 COPY . .
 
 # Build the application
-RUN npm run build
+RUN ng build
 
-# Production stage
-FROM nginx:alpine
+# Create a simple stage to hold the built files
+FROM alpine:latest
 
-# Copy built application from builder stage
+# Install a lightweight web server for health checks
+RUN apk add --no-cache wget
+
+# Copy built application
 COPY --from=builder /app/dist/oidc-frontend/browser /usr/share/nginx/html
 
-# Copy custom nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port
+# Expose port (for health check)
 EXPOSE 80
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD wget --quiet --tries=1 --spider http://localhost/ || exit 1
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"] 
+# Keep container running (nginx will serve the files from volume)
+CMD ["tail", "-f", "/dev/null"] 
