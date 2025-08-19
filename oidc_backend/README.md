@@ -205,3 +205,43 @@ oidc_backend/
 ## License
 
 This project is for demonstration purposes. Use appropriate licensing for production deployments. 
+
+# TLS/HTTPS with Let's Encrypt (Certbot)
+
+This project includes an automated Certbot container and Nginx configuration for HTTPS.
+
+## Prerequisites
+- A DNS A record pointing issuance-vc.australiaeast.cloudapp.azure.com to your server's public IP
+- Port 80 and 443 open to the Internet
+- Set your email in the environment variable `LETSENCRYPT_EMAIL` in `.env` (used for certificate renewal notices)
+
+## One-time certificate issuance
+1. Start Nginx so the ACME HTTP challenge can be served:
+   ```bash
+   docker-compose up -d nginx certbot
+   ```
+2. Obtain the initial certificate (run on the host):
+   ```bash
+   docker run --rm \
+     -v certbot-etc:/etc/letsencrypt \
+     -v certbot-www:/var/www/certbot \
+     --network oidc_oidc_network \
+     certbot/certbot certonly --webroot \
+     -w /var/www/certbot \
+     -d issuance-vc.australiaeast.cloudapp.azure.com \
+     --email "$LETSENCRYPT_EMAIL" --agree-tos --non-interactive
+   ```
+3. Reload Nginx to pick up the new certificates:
+   ```bash
+   docker-compose restart nginx
+   ```
+
+## Automatic renewal
+- The `certbot` service runs `certbot renew` twice a day. Nginx will use renewed certs automatically; you can schedule a monthly reload:
+  ```bash
+  docker-compose exec nginx nginx -s reload
+  ```
+
+## Notes
+- Certificates are stored in the `certbot-etc` named volume and mounted read-only into Nginx.
+- ACME challenges are served from `/.well-known/acme-challenge/` via the `certbot-www` volume. 
