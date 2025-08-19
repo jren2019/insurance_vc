@@ -423,7 +423,12 @@ export class ManageCredentialsComponent implements OnInit {
 
   loadCredentials() {
     this.credentialService.getCredentials().subscribe(credentials => {
-      this.credentials = credentials;
+      // Sort credentials by issuedAt in descending order (latest first)
+      this.credentials = credentials.sort((a, b) => {
+        const dateA = new Date(a.issuedAt);
+        const dateB = new Date(b.issuedAt);
+        return dateB.getTime() - dateA.getTime();
+      });
     });
   }
 

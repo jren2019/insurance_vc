@@ -36,7 +36,7 @@ services:
       - DATABASE_URL=postgresql://oidc_user:${POSTGRES_PASSWORD:-secure_password_123}@postgres:5432/oidc_db
       - SECRET_KEY=${SECRET_KEY:-your-secret-key-here}
       - ISSUER=${ISSUER:-https://insurance-vc-nz.australiaeast.cloudapp.azure.com}
-      - CONFIG_ID=${CONFIG_ID:-org.iso.18013.5.1.mDL}
+      - CONFIG_ID=${CONFIG_ID:-org.issuance-vc.bank.account.mDL}
     volumes:
       - ./oidc_backend:/app
       - backend_logs:/app/logs

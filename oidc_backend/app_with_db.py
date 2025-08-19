@@ -41,7 +41,7 @@ init_db(app)
 # Config (demo)
 # ---------------------------------------------------------------------
 ISSUER = app.config.get('ISSUER', "https://issuer.example.com")
-CONFIG_ID = app.config.get('CONFIG_ID', "org.iso.18013.5.1.mDL")
+CONFIG_ID = app.config.get('CONFIG_ID', "org.issuance-vc.bank.account.mDL")
 ALG_COSE = app.config.get('ALG_COSE', -7)
 ALG_JOSE = app.config.get('ALG_JOSE', "ES256")
 
@@ -368,7 +368,7 @@ def openid4vci_meta():
         "credential_configurations_supported": {
             CONFIG_ID: {
                 "format": "mso_mdoc",
-                "doctype": "org.iso.18013.5.1.mDL",
+                "doctype": "bank.account.mDL",
                 "cryptographic_binding_methods_supported": ["cose_key"],
                 "credential_signing_alg_values_supported": [ALG_COSE],  # COSE alg ids
                 "proof_types_supported": {
@@ -377,9 +377,9 @@ def openid4vci_meta():
                 "credential_metadata": {
                     "display": [{"name": "Mobile Driving Licence", "locale": "en-US"}],
                     "claims": [
-                        {"path": ["org.iso.18013.5.1", "given_name"]},
-                        {"path": ["org.iso.18013.5.1", "family_name"]},
-                        {"path": ["org.iso.18013.5.1", "birth_date"], "mandatory": True}
+                        {"path": ["org.issuance-vc.bank.account", "given_name"]},
+                        {"path": ["org.issuance-vc.bank.account", "family_name"]},
+                        {"path": ["org.issuance-vc.bank.account", "birth_date"], "mandatory": True}
                     ]
                 }
             }
@@ -490,7 +490,7 @@ def credential():
     device_cose_key = jwk_to_cose_ec2_map(holder_jwk)
 
     data = {
-        "org.iso.18013.5.1": {
+        "org.issuance-vc.bank.account": {
             "given_name": "Erika",
             "family_name": "Mustermann",
             "birth_date": "1990-01-01",
@@ -498,7 +498,7 @@ def credential():
     }
 
     issuer_signed_bytes = build_mdoc_issuersigned_with_helper(
-        doctype="org.iso.18013.5.1.mDL",
+        doctype="org.issuance-vc.bank.account.mDL",
         data=data,
         device_cose_key=device_cose_key
     )
@@ -975,7 +975,7 @@ def issue_credential():
         family_name = data.get('family_name') or resolved_last_name or 'Doe'
         birth_date = data.get('birth_date') or resolved_birth_date or '1990-01-01'
         mdoc_data = {
-            "org.iso.18013.5.1": {
+            "org.issuance-vc.bank.account": {
                 "given_name": given_name,
                 "family_name": family_name,
                 "birth_date": birth_date,
@@ -984,14 +984,14 @@ def issue_credential():
 
         # Add custom fields if provided, and include account_id for traceability
         if 'custom_fields' in data and isinstance(data['custom_fields'], dict):
-            mdoc_data["org.iso.18013.5.1"].update(data['custom_fields'])
+            mdoc_data["org.issuance-vc.bank.account"].update(data['custom_fields'])
         if account_id:
-            mdoc_data["org.iso.18013.5.1"]["account_id"] = account_id
+            mdoc_data["org.issuance-vc.bank.account"]["account_id"] = account_id
 
         # Generate mdoc credential using pymdoccbor
         device_cose_key = jwk_to_cose_ec2_map(holder_jwk)
         mdoc_bytes = build_mdoc_issuersigned_with_helper(
-            "org.iso.18013.5.1.mDL", 
+            "org.issuance-vc.bank.account.mDL", 
             mdoc_data, 
             device_cose_key
         )

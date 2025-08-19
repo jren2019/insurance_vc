@@ -93,7 +93,7 @@ import { Inject } from '@angular/core';
             <div class="form-row">
               <mat-form-field appearance="outline" class="form-field full-width">
                 <mat-label>Subject ID</mat-label>
-                <input matInput formControlName="subjectId" placeholder="did:example:holder123" required>
+                <input matInput formControlName="subjectId" placeholder="did:org.issuance-vc.bank.account:holder" required>
                 <mat-hint>Identifier of the person or wallet that will hold this credential</mat-hint>
                 <mat-error *ngIf="credentialForm.get('subjectId')?.hasError('required')">
                   Subject ID is required
@@ -386,7 +386,7 @@ export class IssueCredentialComponent {
     this.credentialForm = this.fb.group({
       type: ['Account', [Validators.required]],
       format: ['ISO mdoc', [Validators.required]],
-      subjectId: ['did:example:holder123', [Validators.required, Validators.pattern(/^did:.*$/)]],
+      subjectId: ['did:org.issuance-vc.bank.account:holder', [Validators.required, Validators.pattern(/^did:.*$/)]],
       validFrom: ['', [Validators.required]],
       expirationDate: [''],
       accountId: ['', [Validators.required]],
@@ -492,7 +492,7 @@ export class IssueCredentialComponent {
     this.credentialForm.patchValue({
       type: 'Account',
       format: 'ISO mdoc',
-      subjectId: 'did:example:holder123',
+      subjectId: 'did:org.issuance-vc.bank.account:holder',
       accountId: ''
     });
 

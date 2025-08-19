@@ -34,6 +34,7 @@ docker-compose ps
 # Run database migrations
 echo "🗄️  Running database migrations..."
 docker-compose exec backend python manage_db.py migrate
+docker-compose exec backend python populate_test_data.py
 
 # Show logs
 echo "📋 Recent logs:"

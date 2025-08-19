@@ -13,15 +13,9 @@ import { MatListModule } from '@angular/material/list';
       <div class="logo-section">
         <div class="logo">
           <div class="stream-icon">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="16" cy="16" r="16" fill="#4A90E2"/>
-              <rect x="8" y="12" width="16" height="2" fill="white"/>
-              <rect x="8" y="16" width="12" height="2" fill="white"/>
-              <rect x="8" y="20" width="8" height="2" fill="white"/>
-            </svg>
+            <img src="assets/logo.png" alt="STREAM Logo" class="logo-img" />
           </div>
           <div class="brand-text">
-            <div class="brand-name">STREAM</div>
             <div class="brand-subtitle">Digital Acceptance Platform</div>
             <div class="version">V1.113</div>
           </div>
@@ -80,6 +74,7 @@ import { MatListModule } from '@angular/material/list';
 
     .logo {
       display: flex;
+      flex-direction: column;
       align-items: center;
       gap: 12px;
     }
@@ -89,15 +84,21 @@ import { MatListModule } from '@angular/material/list';
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 100%;
     }
 
-    .stream-icon svg {
+    .logo-img {
+      width: 100%;
+      height: auto;
       display: block;
+      object-fit: contain;
     }
 
     .brand-text {
       display: flex;
       flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
 
     .brand-name {
