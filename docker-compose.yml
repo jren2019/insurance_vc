@@ -62,7 +62,7 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-      - API_URL=${API_URL:-http://issuance-vc.australiaeast.cloudapp.azure.com/api}
+      - API_URL=${API_URL:-https://issuance-vc.australiaeast.cloudapp.azure.com/api}
     volumes:
       - frontend_build:/usr/share/nginx/html
     depends_on:
@@ -104,7 +104,7 @@ services:
     networks:
       - oidc_network
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://issuance-vc.australiaeast.cloudapp.azure.com/health"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "https://issuance-vc.australiaeast.cloudapp.azure.com/health"]
       interval: 30s
       timeout: 10s
       retries: 3
