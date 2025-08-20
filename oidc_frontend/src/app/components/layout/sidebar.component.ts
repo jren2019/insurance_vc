@@ -55,8 +55,8 @@ import { MatListModule } from '@angular/material/list';
   `,
   styles: [`
     .sidebar {
-      background: #2c3e50;
-      color: white;
+      background: white;
+      color: #333;
       width: 250px;
       height: 100vh;
       position: fixed;
@@ -65,11 +65,12 @@ import { MatListModule } from '@angular/material/list';
       z-index: 1000;
       display: flex;
       flex-direction: column;
+      border-right: 1px solid #e0e0e0;
     }
 
     .logo-section {
       padding: 24px 20px;
-      border-bottom: 1px solid #34495e;
+      border-bottom: 1px solid #e0e0e0;
     }
 
     .logo {
@@ -104,20 +105,20 @@ import { MatListModule } from '@angular/material/list';
     .brand-name {
       font-size: 20px;
       font-weight: 700;
-      color: white;
+      color: #333;
       font-family: 'Inter', sans-serif;
     }
 
     .brand-subtitle {
       font-size: 12px;
-      color: #bdc3c7;
+      color: #666;
       margin-top: 2px;
       font-weight: 400;
     }
 
     .version {
       font-size: 11px;
-      color: #7f8c8d;
+      color: #999;
       margin-top: 4px;
       font-weight: 300;
     }
@@ -131,7 +132,7 @@ import { MatListModule } from '@angular/material/list';
       padding: 20px 20px 12px 20px;
       font-size: 12px;
       font-weight: 600;
-      color: #7f8c8d;
+      color: #666;
       text-transform: uppercase;
       letter-spacing: 1px;
       font-family: 'Inter', sans-serif;
@@ -152,7 +153,7 @@ import { MatListModule } from '@angular/material/list';
       align-items: center;
       gap: 12px;
       padding: 12px 20px;
-      color: #bdc3c7;
+      color: #333;
       text-decoration: none;
       transition: all 0.2s ease;
       border-left: 3px solid transparent;
@@ -160,14 +161,14 @@ import { MatListModule } from '@angular/material/list';
     }
 
     .nav-link:hover {
-      background: #34495e;
-      color: white;
+      background: #f5f5f5;
+      color: #333;
     }
 
     .nav-link.active {
-      background: #3498db;
-      color: white;
-      border-left-color: #2980b9;
+      background: #e3f2fd;
+      color: #1976d2;
+      border-left-color: #1976d2;
     }
 
     .nav-link mat-icon {
